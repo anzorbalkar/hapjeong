@@ -1,0 +1,54 @@
+@import "~flickity/dist/flickity.css";
+
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body { 
+  font-family: sans-serif;
+  margin: 0;
+}
+
+.gallery { 
+  height: 100%; 
+}
+
+.gallery-cell {
+  background: #000;
+  height: 100%;
+  margin-right: 10px;
+  width: 100%;
+}
+
+.gallery-cell img {
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+
+.thumbnail-grid {
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.thumbnail-grid-cell {
+}
+
+.thumbnail-grid-cell img {
+  height: 100px;
+  object-fit: cover;
+  width: 100px;
+}
+
+.stage-bar {
+  background: rgba(255, 255, 255, .3);
+  height: 60px;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+button {
+  background: white;
+}

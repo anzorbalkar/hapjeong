@@ -1,0 +1,6 @@
+node_modules
+.DS_Store
+public
+*.log
+firebase.json
+database.rules.json

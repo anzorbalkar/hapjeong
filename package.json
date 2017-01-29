@@ -1,0 +1,29 @@
+{
+  "name": "hapjeong",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "flickity": "^2.0.5",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.26.1",
+    "html-webpack-plugin": "^2.26.0",
+    "node-sass": "^4.4.0",
+    "sass-loader": "^4.1.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^2.2.0"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/webpack --watch",
+    "build": "./node_modules/.bin/webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anzor Balkar",
+  "license": "MIT"
+}
