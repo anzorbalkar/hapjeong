@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-  entry: './src/app.js',
+  entry: './src/app/app.js',
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, 'public')
@@ -12,15 +12,19 @@ module.exports = {
   module: {
     rules: [
       {
-      	test: /\.js$/, 
+      	test: /\.js$/,
       	loader: 'babel-loader',
       	options: {
           presets: ["es2015"]
         },
       	include: [
-          path.resolve(__dirname, "src")
+          path.resolve(__dirname, 'src')
         ],
         exclude: /node_modules/,
+      },
+      {
+        test: /\.hbs$/,
+        loader: 'handlebars-loader'
       },
       {
         test: /\.css$/,
@@ -34,10 +38,9 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin(),
-    new HtmlWebpackPlugin({template: './src/index.html'}),
+    new HtmlWebpackPlugin({template: './src/app/app.html'}),
     new CopyWebpackPlugin([
-      // {output}/file.txt
-      { from: 'src/photos', to: 'photos' }
+      { from: 'src/assets' }
       ]),
   ]
 };

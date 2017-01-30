@@ -1,0 +1,14 @@
+.grid {
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.grid-cell {
+  width: 25%;
+
+  img {
+    height: 100px;
+    object-fit: cover;
+    width: 100%;
+  }
+}

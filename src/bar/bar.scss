@@ -1,0 +1,11 @@
+.bar {
+  background: rgba(255, 255, 255, .3);
+  height: 60px;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+
+  button {
+    background: white;
+  }
+}
