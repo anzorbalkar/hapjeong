@@ -1,11 +1,51 @@
 .bar {
-  background: rgba(0, 0, 255, .3);
-  height: 60px;
+  align-items: center;
+  background: #f5f5f5;
+  border-bottom: 1px solid #999;
+  display: flex;
   position: absolute;
+  justify-content: center;
+  top: 0;
+  transition: height 225ms cubic-bezier(0.4, 0.0, 0.2, 1);
   width: 100%;
   z-index: 1;
 
   button {
     background: white;
+  }
+}
+
+.bar.bar-caption-mode {
+  border-bottom-color: #ccc;
+}
+
+.bar-fade-in-active, .bar-fade-out-active {
+  transition: opacity 225ms;
+}
+
+.title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 28px;
+}
+
+.close-button {
+  color: #008dee;
+  position: absolute;
+}
+
+@media all and (orientation:portrait) {
+  .bar {
+    height: 58px;
+  }
+
+  .close-button {
+    font-size: 30px;
+    left: 10px;
+    top: 14px;
+  }
+}
+@media all and (orientation:landscape) {
+  .bar {
+    height: 60px;
   }
 }

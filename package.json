@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "event-emitter": "^0.3.4",
     "flickity": "^2.0.5",
     "get-node-dimensions": "^1.2.0",
     "lodash": "^4.17.4",

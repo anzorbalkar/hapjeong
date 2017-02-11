@@ -3,17 +3,22 @@
   position: absolute;
   top: 0;
   width: 100%;
-  //background: #000;
+}
+
+.stage-go-dark-active {
+  transition: background-color 225ms;
+}
+
+.stage-go-light-active {
+  transition: background-color 125ms;
 }
 
 .stage-cell {
-  background: #000;
   height: 100%;
   margin-right: 10px;
   width: 100%;
 
   img {
-    background-color: #fff;
     height: 100%;
     object-fit: contain;
     width: 100%;

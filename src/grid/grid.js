@@ -1,14 +1,16 @@
+import EventEmitter from 'event-emitter';
 import Utils from '../utils';
 
 require('./grid.scss');
 const gridTemplate = require('./grid.hbs');
 
 class Grid {
-  constructor(photos, itemClicked) {
+  constructor(photos) {
     this.dom_ = Utils.htmlToElement(gridTemplate({photos}));
+    this.events_ = new EventEmitter();
 
     const imgClicked = (event) => {
-      itemClicked(event.target);
+      this.events_.emit('item-click', event.target);
     };
 
     this.dom_.querySelectorAll('img').forEach((img) => {
@@ -18,6 +20,10 @@ class Grid {
 
   get dom() {
     return this.dom_;
+  }
+
+  get events() {
+    return this.events_;
   }
 
   getImgSrc(img) { // eslint-disable-line class-methods-use-this

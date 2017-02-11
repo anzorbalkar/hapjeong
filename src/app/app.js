@@ -13,9 +13,11 @@ class App {
   constructor() {
     const config = new Config();
 
-    this.grid_ = new Grid(config.photos, this.gridItemClicked_.bind(this));
-    this.stage_ = new Stage(config.photos, this.stageClicked_.bind(this));
-    this.bar_ = new Bar(this.barCloseButtonClicked_.bind(this));
+    this.photos_ = config.photos;
+    this.dom_ = document.querySelector('body');
+    this.grid_ = new Grid(this.photos_);
+    this.stage_ = new Stage(this.photos_);
+    this.bar_ = new Bar();
     this.shift_ = new Shift();
 
     Utils.stampComponents(document, {
@@ -26,7 +28,11 @@ class App {
     });
 
     this.stage_.hide();
-    this.bar_.hide();
+
+    this.grid_.events.on('item-click', this.gridItemClicked_.bind(this));
+    this.stage_.events.on('click', this.stageClicked_.bind(this));
+    this.stage_.events.on('photo-scroll', this.photoScrolled_.bind(this));
+    this.bar_.events.on('close', this.barCloseButtonClicked_.bind(this));
   }
 
   async enterStage_(img) {
@@ -37,13 +43,14 @@ class App {
     this.grid_.whiteoutCellImage(imgIndex);
     this.grid_.hide();
 
+    this.bar_.goCaptionMode(this.photos_[imgIndex]);
+
     // Show the shift, and animate it.
     this.shift_.show();
     await this.shift_.toStage(this.grid_.getImgSrc(img), gridImgBounds);
 
     // Shift animation is done, hide it and show the bar and stage.
     this.shift_.hide();
-    this.bar_.show();
     this.stage_.show(imgIndex);
 
     // Restore the cell image on the grid now.
@@ -54,8 +61,8 @@ class App {
   async exitStage_() {
     const photoIndex = this.stage_.currentIndex;
 
-    // Hide the bar and stage.
-    this.bar_.hide();
+    // Put the bar back in title mode, and hide the stage.
+    this.bar_.goTitleMode();
     this.stage_.hide();
 
     // Clear the image out of the target grid cell.
@@ -82,7 +89,21 @@ class App {
   }
 
   stageClicked_() {
-    this.bar_.toggle();
+    // Hack alert, only when the stage is not dark, up the z-index on the
+    // bar such that it can receive click events (for eg on its X button).
+    // Note: the bar is initialized with a higher z-index in its css because
+    // the default stage mode is not dark.
+    if (this.stage_.isDark()) {
+      this.bar_.dom.style.zIndex = 1;
+    } else {
+      this.bar_.dom.style.zIndex = 0;
+    }
+
+    this.stage_.toggleDarkLight();
+  }
+
+  photoScrolled_(photoIndex) {
+    this.bar_.setCaption(this.photos_[photoIndex]);
   }
 
   barCloseButtonClicked_() {

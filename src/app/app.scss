@@ -7,11 +7,6 @@
   box-sizing: border-box;
 }
 
-#transition-image {
-  display: none;
-  background: red;
-  position: absolute;
-  background-repeat: no-repeat;
-  background-clip: content-box;
-  animation-fill-mode: forwards, forwards;
+body {
+  color: #333;
 }
