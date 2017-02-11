@@ -6,6 +6,7 @@ module.exports = {
     'rules': {
       'eqeqeq': 'off',
       'object-curly-spacing': ['error', 'never'],
-      'no-underscore-dangle': ['error', {allowAfterThis: true}],
+      'no-param-reassign': ["error", { "props": false }],
+      'no-underscore-dangle': 'off',
     }
 };

@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-  entry: './src/app/app.js',
+  entry: ['babel-polyfill', './src/app/app.js'],
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, 'public')
@@ -15,7 +15,8 @@ module.exports = {
       	test: /\.js$/,
       	loader: 'babel-loader',
       	options: {
-          presets: ["es2015"]
+          presets: ['es2015'],
+          plugins: ['transform-async-to-generator']
         },
       	include: [
           path.resolve(__dirname, 'src')

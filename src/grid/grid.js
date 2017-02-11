@@ -20,12 +20,36 @@ class Grid {
     return this.dom_;
   }
 
+  getImgSrc(img) { // eslint-disable-line class-methods-use-this
+    return img.attributes.src.value || img.dataset.src;
+  }
+
+  getImgIndex(img) { // eslint-disable-line class-methods-use-this
+    return parseInt(img.dataset.index, 10);
+  }
+
+  getImgAtIndex(index) {
+    return this.dom_.children[index].querySelector('img');
+  }
+
+  whiteoutCellImage(index) {
+    const img = this.getImgAtIndex(index);
+    img.dataset.src = img.attributes.src.value;
+    img.src = '';
+  }
+
+  restoreCellImage(index) {
+    const img = this.getImgAtIndex(index);
+    img.src = img.dataset.src;
+    delete img.dataset.src;
+  }
+
   show() {
-    this.dom_.style.display = 'flex';
+    Utils.show(this.dom_);
   }
 
   hide() {
-    this.dom_.style.display = 'none';
+    Utils.hide(this.dom_);
   }
 }
 

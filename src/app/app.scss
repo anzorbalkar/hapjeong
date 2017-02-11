@@ -1,11 +1,17 @@
+@import "~normalize.css/normalize.css";
 @import "~flickity/dist/flickity.css";
 
+/* TODO(anzorbalkar): Maybe can delete this since normalize has been added. */
 * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-body {
-  font-family: sans-serif;
-  margin: 0;
+#transition-image {
+  display: none;
+  background: red;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-clip: content-box;
+  animation-fill-mode: forwards, forwards;
 }

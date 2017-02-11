@@ -1,0 +1,13 @@
+.shift {
+  position: absolute;
+  overflow: hidden;
+}
+
+@keyframes pop-frames {
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.shift-pop {
+  animation: pop-frames 220ms;
+}

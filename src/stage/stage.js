@@ -8,7 +8,7 @@ class Stage {
   constructor(photos, stageClicked) {
     this.dom_ = Utils.htmlToElement(stageTemplate({photos}));
 
-    this.flickity_ = new Flickity(this.dom_, {
+    this.flickity_ = new Flickity(this.dom_.querySelector('.flickity-container'), {
       pageDots: false,
       prevNextButtons: false,
       setGallerySize: false,
@@ -21,18 +21,19 @@ class Stage {
     return this.dom_;
   }
 
+  get currentIndex() {
+    return this.flickity_.selectedIndex;
+  }
+
   show(index) {
-    this.dom_.style.display = 'block';
+    Utils.show(this.dom_);
 
     this.flickity_.resize();
     this.flickity_.select(index, false, true);
-
-    this.dom_.style.opacity = '1.0';
   }
 
   hide() {
-    this.dom_.style.opacity = '0';
-    this.dom_.style.display = 'none';
+    Utils.hide(this.dom_);
   }
 }
 

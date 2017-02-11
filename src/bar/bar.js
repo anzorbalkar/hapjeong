@@ -15,18 +15,14 @@ class Bar {
   }
 
   show() {
-    this.dom_.style.display = 'block';
+    Utils.show(this.dom_);
   }
   hide() {
-    this.dom_.style.display = 'none';
+    Utils.hide(this.dom_);
   }
 
   toggle() {
-    if (this.dom_.style.display == 'block') {
-      this.hide();
-    } else {
-      this.show();
-    }
+    Utils.toggle(this.dom_);
   }
 }
 
