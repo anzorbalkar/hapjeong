@@ -33,6 +33,10 @@ class Config {
         url: 'photos/007.jpg',
         date: 'July 11, 2015',
       },
+      {
+        url: 'photos/008.jpg',
+        date: 'October 29, 2011',
+      },
     ];
   }
 

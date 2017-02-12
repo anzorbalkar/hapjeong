@@ -36,38 +36,33 @@ class Shift {
 
   toStage(imgSrc, gridImgBounds) {
     this.img_.src = imgSrc;
-
-    const viewportWidth = document.documentElement.clientWidth;
-    const viewportHeight = document.documentElement.clientHeight;
-
-    const imageAspect = this.img_.naturalWidth / this.img_.naturalHeight;
-    const endTop = -(((viewportWidth / imageAspect) - viewportHeight) / 2);
-    const endHeight = viewportWidth / imageAspect;
+    const endBounds = this.getFinalBounds();
 
     return this.startAnimation_({
-      left: [gridImgBounds.left, 0],
-      top: [gridImgBounds.top, endTop],
-      width: [gridImgBounds.width, viewportWidth],
-      height: [gridImgBounds.height, endHeight],
+      left: [gridImgBounds.left, endBounds.left],
+      top: [gridImgBounds.top, endBounds.top],
+      width: [gridImgBounds.width, endBounds.width],
+      height: [gridImgBounds.height, endBounds.height],
     }, Shift.TO_STAGE_ANIMATION_DURATION_, this.imgLerperCoverToContain_);
   }
 
   toGrid(imgSrc, gridImgBounds) {
     this.img_.src = imgSrc;
-
-    const viewportWidth = document.documentElement.clientWidth;
-    const viewportHeight = document.documentElement.clientHeight;
-
-    const imageAspect = this.img_.naturalWidth / this.img_.naturalHeight;
-    const endTop = -(((viewportWidth / imageAspect) - viewportHeight) / 2);
-    const endHeight = viewportWidth / imageAspect;
+    const endBounds = this.getFinalBounds();
 
     return this.startAnimation_({
-      left: [0, gridImgBounds.left],
-      top: [endTop, gridImgBounds.top],
-      width: [viewportWidth, gridImgBounds.width],
-      height: [endHeight, gridImgBounds.height],
+      left: [endBounds.left, gridImgBounds.left],
+      top: [endBounds.top, gridImgBounds.top],
+      width: [endBounds.width, gridImgBounds.width],
+      height: [endBounds.height, gridImgBounds.height],
     }, Shift.TO_GRID_ANIMATION_DURATION_, this.imgLerperContainToCover_);
+  }
+
+  getFinalBounds() {
+    // For the final bounds of the shift div, get the `contain` fit using the viewport.
+    // This will ensure proper bounds are used regardless of device orientation, and image aspect.
+    return Shift.getFits_(document.documentElement,
+      this.img_.naturalWidth / this.img_.naturalHeight).contain;
   }
 
   imgLerperCoverToContain_(deltaPercent) {
@@ -99,11 +94,19 @@ class Shift {
   startAnimation_(toFrom, duration, fitLerper) {
     this.animToFrom = toFrom;
     this.animDuration = duration;
+    this.animImgFitLerper = fitLerper;
 
     // Before animation starts, set each property on this element to its initial animation values.
     _.each(this.animToFrom, (values, propertyName) => {
       this.dom_.style[propertyName] = values[0];
     });
+
+    // Also set intial values of the image fit.
+    const imgBounds = this.animImgFitLerper(0);
+    this.img_.style.marginTop = imgBounds.top;
+    this.img_.style.marginLeft = imgBounds.left;
+    this.img_.style.width = imgBounds.width;
+    this.img_.style.height = imgBounds.height;
 
     // Grab a reference to the `resolve` function, for
     // later invocation when the animation is complete.
@@ -111,8 +114,7 @@ class Shift {
       this.animResolver = resolve;
     });
 
-    this.animImgFitLerper = fitLerper;
-
+    // Start the window animation.
     window.requestAnimationFrame(this.stepAnimationFn_);
 
     return promise;
@@ -181,20 +183,36 @@ class Shift {
 
   static getFits_(container, imageAspect) {
     const containerBounds = getNodeDimensions(container);
+    const containerAspect = containerBounds.width / containerBounds.height;
 
+    const heightOfFillByWidth = containerBounds.width / imageAspect;
+    const fillByWidth = {
+      top: -((heightOfFillByWidth - containerBounds.height) / 2),
+      left: 0,
+      width: containerBounds.width,
+      height: heightOfFillByWidth,
+    };
+
+    const widthOfFillByHeight = containerBounds.height * imageAspect;
+    const fillByHeight = {
+      top: 0,
+      left: -((widthOfFillByHeight - containerBounds.width) / 2),
+      width: widthOfFillByHeight,
+      height: containerBounds.height,
+    };
+
+    // Container is wider than image.
+    if (imageAspect < containerAspect) {
+      return {
+        cover: fillByWidth,
+        contain: fillByHeight,
+      };
+    }
+
+    // Container is taller than image.
     return {
-      cover: {
-        top: 0,
-        left: -(((containerBounds.height * imageAspect) - containerBounds.width) / 2),
-        width: containerBounds.height * imageAspect,
-        height: containerBounds.height,
-      },
-      contain: {
-        top: -(((containerBounds.width / imageAspect) - containerBounds.height) / 2),
-        left: 0,
-        width: containerBounds.width,
-        height: containerBounds.width / imageAspect,
-      },
+      cover: fillByHeight,
+      contain: fillByWidth,
     };
   }
 
